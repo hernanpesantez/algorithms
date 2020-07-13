@@ -1,0 +1,68 @@
+﻿Programming Assignment #2:
+Computing the Median
+Due in class on July 9
+Overview:
+
+
+Recall that the median is the 50th percentile of a set of elements, that is the element that would be in the middle were we to sort the elements in ascending or descending order. Obviously one could find the median by sorting, but in class, we discussed several ways in which we can compute the median without fully sorting the data.
+
+
+This assignment involves comparing two popular algorithms for computing the median:
+* Quick Select with a Randomized Pivot (abbreviate as QSRP)
+* Quick Select calling Median-of-Medians to get a pseudo-median as a pivot (abbreviate as QSMM)
+Both QSRP and QSMM have an “analytical” (theoretical) average case of O(n). We wish to compare their “empirical” (actual) performance.
+ 
+Input:
+
+
+To properly compare QSRP and QSMM, we should use the same set of elements for both QSRP and QSMM. To achieve that, for each of the ten trials,
+* Create an array of size 10000, where a[i] = i+1 (i.e. 1 thru 10000)
+* Shuffle the array - use a method like shuffle() from your programming language or write your own. See https://www.geeksforgeeks.org/shuffle-a-given-array-using-fisher-yates-shuffle-algorithm/
+* Clone a copy of the array - before you start looking for the median - so you can use the same input data for both algorithms
+ 
+Methodology:
+
+
+1. Implement Quick Select with a randomized pivot. The Quick Select algorithm is at https://www.geeksforgeeks.org/quickselect-algorithm/ but the code for a randomized pivot is at https://www.geeksforgeeks.org/quicksort-using-random-pivoting/
+2. Implement Quick Select using the “Median of Medians” pseudo-median as the pivot. One implementation appears at https://brilliant.org/wiki/median-finding-algorithm/
+3. Like you did in Assignment #1, modify both algorithms to count key-comparisons, that is comparisons between data elements. Do not count the comparisons on a loop index variable, e.g. “for (i = 0; i < n; i++)” or “while (i < n)”.
+4. Note that the implementation for Median of Medians above calls the Python sorted(*) function which masks the comparisons being done in the sort. Instead, find code for a sort from the Internet and plug that into your code so you can explicitly count comparisons. I recommend Insertion Sort for this purpose as the subarrays are of size 5. Or, you can use the code from Stack Overflow (see slides) that finds the median of the 5 elements (without sorting) in only 6 or 7 comparisons. 
+5. In addition to tracking comparisons, you should also track clock time. You do that by getting the system time before and after the algorithm runs and taking their difference.
+6. Run ten trials - that is create your data set (see Input above), execute both QSRP and QSMM on a copy of that data, and repeat this process ten times. 
+7. Tabulate your results as described in the next section.
+8. Note that medians should always be 5000 or 5001. If not, there is a bug in your code that requires research.
+
+
+________________
+
+
+Output:
+
+
+Use a tabular format, that is all column headings on the top, and then just the results on each row of the table.
+Your column headings should be
+1. Trial # (will be 1-10)
+2. Size (will always be 10000)
+3. Computed Median for QSRP (should be 5000, 5001, or 5000.5)
+4. Computed Median for QSMM (should be 5000, 5001, or 5000.5)
+5. Clock Time for QSRP 
+6. Clock Time for QSMM
+7. No. of Comparisons for QSRP
+8. No. of Comparisons for QSMM
+
+
+Groups:
+
+
+You may work with another student in the class on the assignment. However, each student will present and run his/her own code in the breakout sessions for Peer-Review. (It is conceivable that you will even get different scores depending on how the presentation goes and the particular peer reviewers.)
+
+
+Public Code:
+
+
+You are permitted to use publicly available code as a starting point for this assignment, with the following understanding:
+* The code must be in the public domain (i.e. not someone’s personal repository).
+* You must comply with all copyright regulations.
+* You should have a comment before each such algorithm acknowledging the URL and author (if known).
+* This does not translate into the permitted use of public code in other courses.
+* You are responsible that the code works correctly.
