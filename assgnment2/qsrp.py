@@ -201,7 +201,7 @@ def main():
     
     for i in range(0,10):
       
-        lst, n = make_random_list(10000)
+        lst, n = make_random_list(20001)
         start_time = time.time()
         
         median = median_of_medians(lst,n//2)
