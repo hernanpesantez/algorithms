@@ -65,11 +65,9 @@ def main(argv):
     #============================ java O(n2) O(n2)================
 
 
-    # completed = subprocess.run(['javac', 'LPS_N2_N2.java'])
-    # completed = subprocess.run(['java', 'GFG', clean_txt, 'hello'])
-
 
     start_time = time.time()
+    #src: https://www.geeksforgeeks.org/print-longest-palindromic-subsequence/
     out = check_output(['java', 'LPS_N2_N2',clean_txt])
     time_taken = format(round((time.time() - start_time),9),'11f')
 
@@ -98,12 +96,8 @@ def main(argv):
 
     print('\n')
     print('Implementation of DP algorithm that uses O(n^2) time and O(n) space')
-    #calling n^2 n^2 version
-
-    # completed = subprocess.run(['javac', 'LPS_N2_N.java'])
-    # completed = subprocess.run(['java', 'GFG', clean_txt, 'hello'])
-
-
+  
+    #src: https://www.geeksforgeeks.org/print-longest-palindromic-subsequence/
     start_time = time.time()
     out = check_output(['java', 'LPS_N2_N',clean_txt])
     time_taken = format(round((time.time() - start_time),9),'11f')
@@ -127,11 +121,9 @@ def main(argv):
     tabulate(clean_txt,raw_txt,raw_data_size,clean_data_size,time_taken, comparisons)
 
 
-#=================================JAVA O(n2) O(n) String======================================================
+#=================================JAVA O(n2) O(n) String=================================
 
-    
-    # completed = subprocess.run(['javac', 'LPS_N2_N_STR.java'])
-
+    #src: https://www.geeksforgeeks.org/print-longest-palindromic-subsequence/
 
     start_time = time.time()
     out = check_output(['java', 'LPS_N2_N_STR',clean_txt])
@@ -155,8 +147,8 @@ def main(argv):
 
     print('\n'+out[1])
 
-    print('\n\nFirst Name: Hernan')
-    print('Last Name: Pesantez\n\n')
+    print('\n\nFirst Name: ',argv[2])
+    print('Last Name: ',argv[3])
 
 
     

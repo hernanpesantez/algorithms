@@ -27,7 +27,7 @@ class LPS_N2_N_STR {
                     count++;
                 } else { 
                     L[i][j] = Math.max(L[i - 1][j], L[i][j - 1]); 
-                    // count++;
+                    count++;
 
                 } 
             } 

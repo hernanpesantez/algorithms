@@ -34,7 +34,6 @@ def lps_n2_n2(string):
                 L[i][j] = 2
             elif string[i] == string[j]:
                 count = count +1
-
                 L[i][j] = L[i+1][j-1] + 2
             else: 
                 count = count + 1
