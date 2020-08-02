@@ -1,0 +1,12 @@
+Width=15 
+Height=12 
+Source=0,0 
+Target=9,9
+KingMode=true
+Person=11,11
+Person=2,1
+Person=2,2
+Person=15,2
+Person=7,9
+Person=14,3
+

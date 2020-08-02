@@ -1,4 +1,5 @@
 def compress(uncompressed):
+    count = 0;
     """Compress a string to a list of output symbols."""
  
     # Build the dictionary.
@@ -10,6 +11,7 @@ def compress(uncompressed):
     result = []
     for c in uncompressed:
         wc = w + c
+        count+=1
         if wc in dictionary:
             w = wc
         else:
@@ -18,11 +20,17 @@ def compress(uncompressed):
             dictionary[wc] = dict_size
             dict_size += 1
             w = c
+            count+=1
  
     # Output the code for w.
     if w:
+        count += 1
+        
         result.append(dictionary[w])
-    return result
+        
+    return result, count
+    
+
  
  
 def decompress(compressed):
@@ -56,8 +64,8 @@ def decompress(compressed):
     return result.getvalue()
  
  
-# How to use:
-compressed = compress('TOBEORNOTTOBE455%^&ORTOBEORNOT')
-print (compressed)
-decompressed = decompress(compressed)
-print (decompressed)
+# # How to use:
+# compressed = compress('TOBEORNOTTOBE455%^&ORTOBEORNOT')
+# print (compressed)
+# decompressed = decompress(compressed)
+# print (decompressed)

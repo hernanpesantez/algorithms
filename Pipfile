@@ -5,6 +5,8 @@ name = "pypi"
 
 [packages]
 binarytree = "*"
+pprintpp = "*"
+numpy = "*"
 
 [dev-packages]
 
