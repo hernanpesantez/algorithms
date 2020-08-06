@@ -132,23 +132,31 @@ def read_file(filepath):
 
 grid, target, source, kingmode, width, height, target = read_file(sys.argv[1])
 
-print(target[0])
+print(grid[target[0]][target[1]])
+
 
 grid[target[0]][target[1]] = 9
 
-print('v',grid[1][2])
 pprint.pprint(grid)
 
 
+
+
 def bfs(grid, start):
+    count = 0;
     queue = collections.deque([[start]])
     seen = set([start])
     while queue:
         path = queue.popleft()
         x, y = path[-1]
+
+        count += 1
+        
         if grid[y][x] == goal:
             return path
         for x2, y2 in ((x+1,y), (x-1,y), (x,y+1), (x,y-1)):
+            count += 1
+            
             if 0 <= x2 < height  and 0 <= y2 <  width and grid[y2][x2] != wall and (x2, y2) not in seen:
                 queue.append(path + [(x2, y2)])
                 seen.add((x2, y2))
@@ -178,4 +186,11 @@ for row in maze:
             line.append("*")
     print("".join(line))
 
- 
+
+
+start_time = time.time()
+result =   example(argv) 
+time_taken = format(round((time.time() - start_time),9))
+result = {'astar':{'comparisons':result,'clock':time_taken}}
+
+print(result)

@@ -167,6 +167,9 @@ def return_path(current_node):
 
 
 def astar(maze, start, end, allow_diagonal_movement):
+
+
+    count = 0;
     """
     Returns a list of tuples as a path from the given start to the given end in the given maze
     :param maze:
@@ -200,13 +203,19 @@ def astar(maze, start, end, allow_diagonal_movement):
 
     # Loop until you find the end
     while len(open_list) > 0:
+        
+        count += 1
+        
+
         outer_iterations += 1
 
         if outer_iterations > max_iterations:
           # if we hit this point return the path such as it is
           # it will not contain the destination
           warn("giving up on pathfinding too many iterations")
-          return return_path(current_node)       
+          return return_path(current_node), count 
+ 
+
         
         # Get the current node
         current_node = heapq.heappop(open_list)
@@ -216,22 +225,29 @@ def astar(maze, start, end, allow_diagonal_movement):
 
         # Found the goal
         if current_node == end_node:
-            return return_path(current_node)
+
+            return return_path(current_node), count
 
         # Generate children
         children = []
         
         for new_position in adjacent_squares: # Adjacent squares
 
+            count += 1
+
             # Get node position
             node_position = (current_node.position[0] + new_position[0], current_node.position[1] + new_position[1])
 
             # Make sure within range
             if node_position[0] > (len(maze) - 1) or node_position[0] < 0 or node_position[1] > (len(maze[len(maze)-1]) -1) or node_position[1] < 0:
+                count+=1
+
                 continue
 
             # Make sure walkable terrain
             if maze[node_position[0]][node_position[1]] != 0:
+                count+=1
+
                 continue
 
             # Create new node
@@ -242,8 +258,15 @@ def astar(maze, start, end, allow_diagonal_movement):
 
         # Loop through children
         for child in children:
+
+
+            count += 1
+            
+
             # Child is on the closed list
             if len([closed_child for closed_child in closed_list if closed_child == child]) > 0:
+                count += 1
+                
                 continue
 
             # Create the f, g, and h values
@@ -253,11 +276,13 @@ def astar(maze, start, end, allow_diagonal_movement):
 
             # Child is already in the open list
             if len([open_node for open_node in open_list if child.position == open_node.position and child.g > open_node.g]) > 0:
+                count+=1
                 continue
+
 
             # Add the child to the open list
             heapq.heappush(open_list, child)
-
+        
     warn("Couldn't get a path to destination")
     return None
 
@@ -273,7 +298,7 @@ def example( argv ,  print_maze = True):
     
     print(kingmode)
 
-    path = astar(maze, source, target, kingmode)
+    path, count = astar(maze, source, target, kingmode)
 
     if print_maze:
       for step in path:
@@ -292,11 +317,19 @@ def example( argv ,  print_maze = True):
 
     print(path)
 
+    return count
+
+
 def main(argv):
 
+    start_time = time.time()
+    result =   example(argv) 
+    time_taken = format(round((time.time() - start_time),9))
+    result = {'astar':{'comparisons':result,'clock':time_taken}}
 
+    print(result)
 
-    example(argv)
+  
 
 if __name__ == "__main__":
     main(sys.argv)

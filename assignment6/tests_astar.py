@@ -1,79 +1,86 @@
-# Python3 program to solve Rat in a Maze  
-# problem using backracking  
+# Python program for Dijkstra's single  
+# source shortest path algorithm. The program is  
+# for adjacency matrix representation of the graph 
   
-# Maze size 
-N = 4
+# Library for INT_MAX 
+from sys import maxsize
+
+import sys
+
   
-# A utility function to print solution matrix sol 
-def printSolution( sol ): 
-      
-    for i in sol: 
-        for j in i: 
-            print(str(j) + " ", end ="") 
-        print("") 
+class Graph(): 
   
-# A utility function to check if x, y is valid 
-# index for N * N Maze 
-def isSafe( maze, x, y ): 
-      
-    if x >= 0 and x < N and y >= 0 and y < N and maze[x][y] == 1: 
-        return True
-      
-    return False
+    def __init__(self, vertices): 
+        self.V = vertices 
+        self.graph = [[0 for column in range(vertices)]  
+                    for row in range(vertices)] 
   
-""" This function solves the Maze problem using Backtracking.  
-    It mainly uses solveMazeUtil() to solve the problem. It  
-    returns false if no path is possible, otherwise return  
-    true and prints the path in the form of 1s. Please note 
-    that there may be more than one solutions, this function 
-    prints one of the feasable solutions. """
-def solveMaze( maze ): 
-      
-    # Creating a 4 * 4 2-D list 
-    sol = [ [ 0 for j in range(4) ] for i in range(4) ] 
-      
-    if solveMazeUtil(maze, 0, 0, sol) == False: 
-        print("Solution doesn't exist"); 
-        return False
-      
-    printSolution(sol) 
-    return True
-      
-# A recursive utility function to solve Maze problem 
-def solveMazeUtil(maze, x, y, sol): 
-      
-    # if (x, y is goal) return True 
-    if x == N - 1 and y == N - 1 and maze[x][y]== 1: 
-        sol[x][y] = 1
-        return True
-          
-    # Check if maze[x][y] is valid 
-    if isSafe(maze, x, y) == True: 
-        # mark x, y as part of solution path 
-        sol[x][y] = 1
-          
-        # Move forward in x direction 
-        if solveMazeUtil(maze, x + 1, y, sol) == True: 
-            return True
-              
-        # If moving in x direction doesn't give solution  
-        # then Move down in y direction 
-        if solveMazeUtil(maze, x, y + 1, sol) == True: 
-            return True
-          
-        # If none of the above movements work then  
-        # BACKTRACK: unmark x, y as part of solution path 
-        sol[x][y] = 0
-        return False
+    def printSolution(self, dist): 
+        print ("Vertex \tDistance from Source")
+        for node in range(self.V): 
+            print (node, "\t", dist[node]) 
   
-# Driver program to test above function 
-if __name__ == "__main__": 
-    # Initialising the maze 
-    maze = [ [1, 0, 0, 0], 
-             [1, 1, 1, 1], 
-             [0, 1, 1, 0], 
-             [1, 0, 1, 1] ] 
-               
-    solveMaze(maze) 
+    # A utility function to find the vertex with  
+    # minimum distance value, from the set of vertices  
+    # not yet included in shortest path tree 
+    def minDistance(self, dist, sptSet): 
   
-# This code is contributed by Shiv Shankar 
+        # Initilaize minimum distance for next node 
+        min = maxsize 
+  
+        # Search not nearest vertex not in the  
+        # shortest path tree 
+        for v in range(self.V): 
+            if dist[v] < min and sptSet[v] == False: 
+                min = dist[v] 
+                min_index = v 
+  
+        return min_index 
+  
+    # Funtion that implements Dijkstra's single source  
+    # shortest path algorithm for a graph represented  
+    # using adjacency matrix representation 
+    def dijkstra(self, src): 
+  
+        dist = [maxsize] * self.V 
+        dist[src] = 0
+        sptSet = [False] * self.V 
+  
+        for cout in range(self.V): 
+  
+            # Pick the minimum distance vertex from  
+            # the set of vertices not yet processed.  
+            # u is always equal to src in first iteration 
+            u = self.minDistance(dist, sptSet) 
+            print(u)
+            # Put the minimum distance vertex in the  
+            # shotest path tree 
+            sptSet[u] = True
+  
+            # Update dist value of the adjacent vertices  
+            # of the picked vertex only if the current  
+            # distance is greater than new distance and 
+            # the vertex in not in the shotest path tree 
+            for v in range(self.V): 
+                if self.graph[u][v] > 0 and sptSet[v] == False and \
+                    dist[v] > dist[u] + self.graph[u][v]: 
+                        dist[v] = dist[u] + self.graph[u][v] 
+  
+        self.printSolution(dist) 
+  
+# Driver program 
+g = Graph(9) 
+g.graph = [[0, 4, 0, 0, 0, 0, 0, 8, 0], 
+        [4, 0, 8, 0, 0, 0, 0, 11, 0], 
+        [0, 8, 0, 7, 0, 4, 0, 0, 2], 
+        [0, 0, 7, 0, 9, 14, 0, 0, 0], 
+        [0, 0, 0, 9, 0, 10, 0, 0, 0], 
+        [0, 0, 4, 14, 10, 0, 2, 0, 0], 
+        [0, 0, 0, 0, 0, 2, 0, 1, 6], 
+        [8, 11, 0, 0, 0, 0, 1, 0, 7], 
+        [0, 0, 2, 0, 0, 0, 6, 7, 0] 
+        ]; 
+  
+g.dijkstra(0); 
+  
+# This code is contributed by Divyanshu Mehta 
